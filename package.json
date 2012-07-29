@@ -1,0 +1,28 @@
+{
+    "name": "lastfm.rest.proxy",
+    "version": "0.0.1",
+    "description": "",
+    "keywords": [
+        "lastmf",
+        "rest",
+        "proxy"
+    ],
+    "author": {
+        "name": "Arthur Evstifeev"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": ""
+    },
+    "directories": {
+        "tests": "tests"
+    },
+    "engines": {
+        "node": ">=0.6.0"
+    },
+    "dependencies": {
+        "restler": ">=2.0.0",
+        "express": "3.0.0rc1"
+    }
+}

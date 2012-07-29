@@ -1,0 +1,3 @@
+var config = {};
+config.lastfm = 'put your apikey here';
+module.exports = config;
