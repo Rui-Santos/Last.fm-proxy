@@ -37,7 +37,7 @@ var Lastfm = (function() {
         if (callback) callback.call(this, data);
       } else {
         that.getPath(url, options).on('complete', function(data, response) {
-          redisClient.set(url, JSON.stringify(data));
+          redisClient.set(url, response.raw.toString());
           if (callback) callback.call(that, data);
         });
       }
