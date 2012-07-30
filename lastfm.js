@@ -1,11 +1,14 @@
 var rest = require('restler'),
-    redisClient = require("redis").createClient(),
-    apiKey = require('./config').lastfm;
+    redis = require("redis"),
+    redisClient,
+    config = require('./config'),
+    apiKey = config.lastfm;
 
 var Lastfm = (function() {
   function Lastfm() {
     this.baseURL = 'http://ws.audioscrobbler.com/2.0/?format=json&api_key=' +
       apiKey;
+    this.shouldCache = false;
   }
 
   function randomImage (albums) {
@@ -22,6 +25,14 @@ var Lastfm = (function() {
     return null;
   }
 
+  Lastfm.prototype.setShouldCache = function(value) {
+    this.shouldCache = value;
+    if (!redisClient && this.shouldCache) {
+      console.log(config.redis);
+      redisClient =  redis.createClient(config.redis);
+    }
+  };
+
   Lastfm.prototype.getPath = function() {
     var args = arguments;
     console.log('processing ' + args[0]);
@@ -29,19 +40,30 @@ var Lastfm = (function() {
     return rest.get.apply(rest, args);
   };
 
+  Lastfm.prototype.requestWithComplete = function(url, callback, options) {
+    var that = this;
+    this.getPath(url, options).on('complete', function(data, response) {
+      if (that.shouldCache) {
+        redisClient.set(url, response.raw.toString());
+      }
+      if (callback) callback.call(that, data);
+    });
+  };
+
   Lastfm.prototype.getPathWithComplete = function(url, callback, options) {
     var that = this;
-    redisClient.get(url, function(err, value) {
-      if (value && !err) {
-        var data = JSON.parse(value);
-        if (callback) callback.call(this, data);
-      } else {
-        that.getPath(url, options).on('complete', function(data, response) {
-          redisClient.set(url, response.raw.toString());
-          if (callback) callback.call(that, data);
-        });
-      }
-    });
+    if (this.shouldCache) {
+      redisClient.get(url, function(err, value) {
+        if (value && !err) {
+          var data = JSON.parse(value);
+          if (callback) callback.call(this, data);
+        } else {
+          that.requestWithComplete(url, callback, options);
+        }
+      });
+    } else {
+      this.requestWithComplete(url, callback, options);
+    }
   };
 
   Lastfm.prototype.tag_getTopAlbums = function(tag, callback) {
@@ -104,9 +126,9 @@ var Lastfm = (function() {
   Lastfm.prototype.album_getImages = function(album, artist, callback) {
     this.album_getInfo(album, artist, function(data) {
       var images;
-      if (data && data.album) {
+      if (data) {
         images = {};
-        data.album.image.forEach(function(image) {
+        data.image.forEach(function(image) {
           images[image.size] = image['#text'];
         });
       }
