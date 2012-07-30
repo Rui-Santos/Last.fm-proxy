@@ -1,4 +1,5 @@
 var rest = require('restler'),
+    redisClient = require("redis").createClient(),
     apiKey = require('./config').lastfm;
 
 var Lastfm = (function() {
@@ -28,9 +29,24 @@ var Lastfm = (function() {
     return rest.get.apply(rest, args);
   };
 
+  Lastfm.prototype.getPathWithComplete = function(url, callback, options) {
+    var that = this;
+    redisClient.get(url, function(err, value) {
+      if (value && !err) {
+        var data = JSON.parse(value);
+        if (callback) callback.call(this, data);
+      } else {
+        that.getPath(url, options).on('complete', function(data, response) {
+          redisClient.set(url, JSON.stringify(data));
+          if (callback) callback.call(that, data);
+        });
+      }
+    });
+  };
+
   Lastfm.prototype.tag_getTopAlbums = function(tag, callback) {
-    this.getPath('&method=tag.getTopAlbums&tag=' + tag).
-    on('complete', function(data) {
+    var path = '&method=tag.getTopAlbums&tag=' + tag;
+    this.getPathWithComplete(path, function(data) {
       var albums;
       if (data && data.topalbums) {
         albums = data.topalbums.album;
@@ -51,8 +67,8 @@ var Lastfm = (function() {
   };
 
   Lastfm.prototype.artist_getTopAlbums = function(artist, callback) {
-    this.getPath('&method=artist.getTopAlbums&artist=' + artist).
-    on('complete', function(data) {
+    var path = '&method=artist.getTopAlbums&artist=' + artist;
+    this.getPathWithComplete(path, function(data) {
       var albums;
       if (data && data.topalbums) {
         albums = data.topalbums.album;
@@ -73,8 +89,8 @@ var Lastfm = (function() {
   };
 
   Lastfm.prototype.album_getInfo = function(album, artist, callback) {
-    this.getPath('&method=album.getinfo&artist=' + artist + '&album=' + album).
-    on('complete', function(data) {
+    var path = '&method=album.getinfo&artist=' + artist + '&album=' + album;
+    this.getPathWithComplete(path, function(data) {
       var info;
       if (data) {
         info = data.album;
