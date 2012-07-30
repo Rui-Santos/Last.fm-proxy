@@ -28,6 +28,18 @@ app.get('/artist_image/:artist', function(req, res) {
   });
 });
 
+app.get('/artist_info/:artist', function(req, res) {
+  client.artist_getInfo(req.params.artist, function(data) {
+    res.json(data ? data : {});
+  });
+});
+
+app.get('/artist_similar/:artist', function(req, res) {
+  client.artist_getSimilar(req.params.artist, function(data) {
+    res.json(data ? data : {});
+  });
+});
+
 app.get('/album_info/:artist/:album', function(req, res) {
   client.album_getInfo(req.params.album, req.params.artist, function(data) {
     res.json(data ? data : {});

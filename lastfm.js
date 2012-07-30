@@ -89,6 +89,32 @@ var Lastfm = (function() {
     });
   };
 
+  Lastfm.prototype.artist_getInfo = function(artist, callback) {
+    var path = '&method=artist.getInfo&artist=' + artist;
+    this.getPathWithComplete(path, function(data) {
+      var info;
+      if (data) {
+        info = data.artist;
+      }
+      if (callback) {
+        callback.call(this, info);
+      }
+    });
+  };
+
+  Lastfm.prototype.artist_getSimilar = function(artist, callback) {
+    var path = '&method=artist.getSimilar&artist=' + artist;
+    this.getPathWithComplete(path, function(data) {
+      var artists;
+      if (data && data.similarartists) {
+        artists = data.similarartists.artist;
+      }
+      if (callback) {
+        callback.call(this, artists);
+      }
+    });
+  };
+
   Lastfm.prototype.artist_getTopAlbums = function(artist, callback) {
     var path = '&method=artist.getTopAlbums&artist=' + artist;
     this.getPathWithComplete(path, function(data) {
