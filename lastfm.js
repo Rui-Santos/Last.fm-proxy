@@ -14,7 +14,8 @@ var Lastfm = (function() {
   function randomImage (albums) {
     if (albums && albums.length > 0) {
       images = {};
-      firstAlbum = albums[Math.floor(Math.random()*albums.length)];
+      //firstAlbum = albums[Math.floor(Math.random()*albums.length)];
+      firstAlbum = albums[0];
       firstAlbum.image.forEach(function(image) {
         images[image.size] = image['#text'];
       });
