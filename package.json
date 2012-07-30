@@ -23,6 +23,7 @@
     },
     "dependencies": {
         "restler": ">=2.0.0",
-        "express": "3.0.0rc1"
+        "express": "3.0.0rc1",
+        "redis": ">=0.7.0"
     }
 }
