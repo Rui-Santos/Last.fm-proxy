@@ -2,7 +2,9 @@ var app = require('express').createServer(),
     Lastfm = require('./lastfm'),
     client = new Lastfm();
 
-client.setShouldCache(true);
+app.setShouldCache = function(value) {
+  client.setShouldCache(value);
+};
 
 app.get('/genre_topalbums/:genre', function(req, res) {
   client.tag_getTopAlbums(req.params.genre, function(data) {
@@ -53,4 +55,4 @@ app.get('/album_image/:artist/:album', function(req, res) {
 });
 
 app.enable("jsonp callback");
-app.listen(3001);
+module.exports = app;
