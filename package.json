@@ -1,9 +1,9 @@
 {
     "name": "lastfm.rest.proxy",
     "version": "0.0.1",
-    "description": "",
+    "description": "Simple last.fm rest proxy with redis caching",
     "keywords": [
-        "lastmf",
+        "lastfm",
         "rest",
         "proxy"
     ],
@@ -15,15 +15,13 @@
         "type": "git",
         "url": ""
     },
-    "directories": {
-        "tests": "tests"
-    },
     "engines": {
         "node": ">=0.6.0"
     },
     "dependencies": {
         "restler": ">=2.0.0",
         "express": "3.0.0rc1",
-        "redis": ">=0.7.0"
+        "redis": ">=0.7.0",
+        "sinon": ">=1.4.0"
     }
 }
