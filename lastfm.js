@@ -28,9 +28,11 @@ var Lastfm = (function() {
 
   Lastfm.prototype.setShouldCache = function(value) {
     this.shouldCache = value;
-    if (!redisClient && this.shouldCache) {
-      console.log(config.redis);
-      redisClient =  redis.createClient(config.redis);
+    if (this.shouldCache) {
+      if (!redisClient) redisClient =  redis.createClient(config.redis);
+    }
+    else {
+      if (redisClient) redisClient.end();
     }
   };
 
@@ -41,29 +43,28 @@ var Lastfm = (function() {
     return rest.get.apply(rest, args);
   };
 
-  Lastfm.prototype.requestWithComplete = function(url, callback, options) {
-    var that = this;
-    this.getPath(url, options).on('complete', function(data, response) {
-      if (that.shouldCache) {
-        redisClient.set(url, response.raw.toString());
-      }
-      if (callback) callback.call(that, data);
-    });
-  };
-
   Lastfm.prototype.getPathWithComplete = function(url, callback, options) {
     var that = this;
+    var requestWithComplete = function(url, callback, options) {
+      that.getPath(url, options).on('complete', function(data, response) {
+        if (that.shouldCache) {
+          redisClient.set(url, response.raw.toString());
+        }
+        if (callback) callback.call(that, data);
+      });
+    };
+
     if (this.shouldCache) {
       redisClient.get(url, function(err, value) {
         if (value && !err) {
           var data = JSON.parse(value);
           if (callback) callback.call(this, data);
         } else {
-          that.requestWithComplete(url, callback, options);
+          requestWithComplete(url, callback, options);
         }
       });
     } else {
-      this.requestWithComplete(url, callback, options);
+      requestWithComplete(url, callback, options);
     }
   };
 
