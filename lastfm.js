@@ -29,7 +29,11 @@ var Lastfm = (function() {
   Lastfm.prototype.setShouldCache = function(value) {
     this.shouldCache = value;
     if (this.shouldCache) {
-      if (!redisClient) redisClient =  redis.createClient(config.redis);
+      if (!redisClient) {
+        var rtg = require('url').parse(config.redis);
+        redisClient = redis.createClient(rtg.port, rtg.hostname);
+        redisClient.auth(rtg.auth.split(":")[1]);
+      }
     }
     else {
       if (redisClient) redisClient.end();
