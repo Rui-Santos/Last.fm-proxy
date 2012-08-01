@@ -32,7 +32,7 @@ var Lastfm = (function() {
       if (!redisClient) {
         var rtg = require('url').parse(config.redis);
         redisClient = redis.createClient(rtg.port, rtg.hostname);
-        redisClient.auth(rtg.auth.split(":")[1]);
+        if (rtg.auth) redisClient.auth(rtg.auth.split(":")[1]);
       }
     }
     else {

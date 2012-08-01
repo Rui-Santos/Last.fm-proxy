@@ -1,4 +1,4 @@
 var config = {};
-config.lastfm = 'put your api key here';
-config.redis = 'put your redis url here';
+config.lastfm = process.env.LASTFM_API_KEY;
+config.redis = process.env.REDISTOGO_URL;
 module.exports = config;
