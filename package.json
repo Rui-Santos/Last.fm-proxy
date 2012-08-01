@@ -16,7 +16,8 @@
         "url": ""
     },
     "engines": {
-        "node": ">=0.8.4"
+        "node": "0.8.x",
+        "npm": "1.1.x"
     },
     "dependencies": {
         "restler": ">=2.0.0",
