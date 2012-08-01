@@ -1,4 +1,0 @@
-var config = {};
-config.lastfm = 'put your apikey here';
-config.redis = '';
-module.exports = config;
