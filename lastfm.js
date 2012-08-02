@@ -52,7 +52,7 @@ var Lastfm = (function() {
     var requestWithComplete = function(url, callback, options) {
       that.getPath(url, options).on('complete', function(data, response) {
         if (that.shouldCache) {
-          redisClient.set(url, response.raw.toString());
+          redisClient.set(url, JSON.stringify(data));
         }
         if (callback) callback.call(that, data);
       });
