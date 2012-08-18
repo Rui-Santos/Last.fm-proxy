@@ -92,7 +92,7 @@ var Lastfm = (function() {
       var images = randomImage(albums);
       if (callback) {
         if (that_arguments.length == 3) {
-          callback.call(this, images[size]);
+          callback.call(this, images ? images[size] : '');
         } else {
           callback.call(this, images);
         }
@@ -146,7 +146,7 @@ var Lastfm = (function() {
       var images = randomImage(albums);
       if (callback) {
         if (that_arguments.length == 3) {
-          callback.call(this, images[size]);
+          callback.call(this, images ? images[size] : '');
         } else {
           callback.call(this, images);
         }
@@ -180,7 +180,7 @@ var Lastfm = (function() {
       }
       if (callback) {
         if (that_arguments.length == 4) {
-          callback.call(this, images[size]);
+          callback.call(this, images ? images[size] : '');
         } else {
           callback.call(this, images);
         }
