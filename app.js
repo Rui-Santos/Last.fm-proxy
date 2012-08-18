@@ -12,6 +12,16 @@ app.get('/genre_topalbums/:genre', function(req, res) {
   });
 });
 
+app.get('/genre_image/:genre/:type', function(req, res) {
+  client.tag_getImages(req.params.genre, req.params.type, function(image) {
+    if (image) {
+      res.redirect(image);
+    } else {
+      res.json({});
+    }
+  });
+});
+
 app.get('/genre_image/:genre', function(req, res) {
   client.tag_getImages(req.params.genre, function(images) {
     res.json(images ? images : {});
@@ -21,6 +31,16 @@ app.get('/genre_image/:genre', function(req, res) {
 app.get('/artist_topalbums/:artist', function(req, res) {
   client.artist_getTopAlbums(req.params.artist, function(data) {
     res.json(data ? data : {});
+  });
+});
+
+app.get('/artist_image/:artist/:type', function(req, res) {
+  client.artist_getImages(req.params.artist, req.params.type, function(image) {
+    if (image) {
+      res.redirect(image);
+    } else {
+      res.json({});
+    }
   });
 });
 
@@ -45,6 +65,17 @@ app.get('/artist_similar/:artist', function(req, res) {
 app.get('/album_info/:artist/:album', function(req, res) {
   client.album_getInfo(req.params.album, req.params.artist, function(data) {
     res.json(data ? data : {});
+  });
+});
+
+app.get('/album_image/:artist/:album/:type', function(req, res) {
+  client.album_getImages(req.params.album, req.params.artist,
+    req.params.type, function(image) {
+    if (image) {
+      res.redirect(image);
+    } else {
+      res.json({});
+    }
   });
 });
 

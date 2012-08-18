@@ -31,12 +31,15 @@ exports.routing = {
   check_routes: function(assert) {
     expect_routes = [
       '/genre_topalbums/:genre',
+      '/genre_image/:genre/:type',
       '/genre_image/:genre',
       '/artist_topalbums/:artist',
+      '/artist_image/:artist/:type',
       '/artist_image/:artist',
       '/artist_info/:artist',
       '/artist_similar/:artist',
       '/album_info/:artist/:album',
+      '/album_image/:artist/:album/:type',
       '/album_image/:artist/:album'
     ];
     assert.ok(app);
@@ -85,6 +88,12 @@ exports.albums = {
       assert.ok(images.small);
       assert.ok(images.large);
       assert.ok(images.extralarge);
+      assert.done();
+    });
+  },
+  album_getImages_typed: function (assert) {
+    client.album_getImages('This Modern Glitch', 'The Wombats', 'small', function(image) {
+      assert.equals('http://userserve-ak.last.fm/serve/34s/58968567.png', image);
       assert.done();
     });
   }
@@ -138,6 +147,12 @@ exports.artists = {
       assert.ok(images.extralarge);
       assert.done();
     });
+  },
+  artist_getImages_typed: function (assert) {
+    client.artist_getImages('The Wombats', 'small', function(image) {
+      assert.equals('http://userserve-ak.last.fm/serve/34s/23514427.png', image);
+      assert.done();
+    });
   }
 };
 
@@ -165,6 +180,12 @@ exports.genres = {
       assert.ok(images.small);
       assert.ok(images.large);
       assert.ok(images.extralarge);
+      assert.done();
+    });
+  },
+  tag_getImages_typed: function (assert) {
+    client.tag_getImages('Rock', 'small', function(image) {
+      assert.equals('http://userserve-ak.last.fm/serve/34s/66662762.png', image);
       assert.done();
     });
   }

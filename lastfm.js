@@ -85,11 +85,17 @@ var Lastfm = (function() {
     });
   };
 
-  Lastfm.prototype.tag_getImages = function(tag, callback) {
+  Lastfm.prototype.tag_getImages = function(tag, size, callback) {
+    callback = arguments.length == 3 ? callback : arguments[1];
+    var that_arguments = arguments;
     this.tag_getTopAlbums(tag, function(albums) {
       var images = randomImage(albums);
       if (callback) {
-        callback.call(this, images);
+        if (that_arguments.length == 3) {
+          callback.call(this, images[size]);
+        } else {
+          callback.call(this, images);
+        }
       }
     });
   };
@@ -133,11 +139,17 @@ var Lastfm = (function() {
     });
   };
 
-  Lastfm.prototype.artist_getImages = function(artist, callback) {
+  Lastfm.prototype.artist_getImages = function(artist, size, callback) {
+    callback = arguments.length == 3 ? callback : arguments[1];
+    var that_arguments = arguments;
     this.artist_getTopAlbums(artist, function(albums) {
       var images = randomImage(albums);
       if (callback) {
-        callback.call(this, images);
+        if (that_arguments.length == 3) {
+          callback.call(this, images[size]);
+        } else {
+          callback.call(this, images);
+        }
       }
     });
   };
@@ -155,7 +167,9 @@ var Lastfm = (function() {
     });
   };
 
-  Lastfm.prototype.album_getImages = function(album, artist, callback) {
+  Lastfm.prototype.album_getImages = function(album, artist, size, callback) {
+    callback = arguments.length == 4 ? callback : arguments[2];
+    var that_arguments = arguments;
     this.album_getInfo(album, artist, function(data) {
       var images;
       if (data) {
@@ -165,7 +179,11 @@ var Lastfm = (function() {
         });
       }
       if (callback) {
-        callback.call(this, images);
+        if (that_arguments.length == 4) {
+          callback.call(this, images[size]);
+        } else {
+          callback.call(this, images);
+        }
       }
     });
   };
