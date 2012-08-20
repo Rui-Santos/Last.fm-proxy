@@ -13,7 +13,7 @@
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": ""
+        "url": "git@github.com:ap4y/Last.fm-proxy.git"
     },
     "engines": {
         "node": "0.8.x",
