@@ -1,7 +1,10 @@
-var app = require('express').createServer(),
+var express = require('express'),
+    app = express.createServer(),
     Lastfm = require('./lastfm'),
-    client = new Lastfm();
+    client = new Lastfm(),
+    noimage_url = '/clear_image.png';
 
+app.use(express.static(__dirname + '/public'));
 app.setShouldCache = function(value) {
   client.setShouldCache(value);
 };
@@ -15,9 +18,9 @@ app.get('/genre_topalbums/:genre', function(req, res) {
 app.get('/genre_image/:genre/:type', function(req, res) {
   client.tag_getImages(req.params.genre, req.params.type, function(image) {
     if (image) {
-      res.redirect(image);
+      res.redirect(301, image);
     } else {
-      res.json({});
+      res.redirect(301, noimage_url);
     }
   });
 });
@@ -37,9 +40,9 @@ app.get('/artist_topalbums/:artist', function(req, res) {
 app.get('/artist_image/:artist/:type', function(req, res) {
   client.artist_getImages(req.params.artist, req.params.type, function(image) {
     if (image) {
-      res.redirect(image);
+      res.redirect(301, image);
     } else {
-      res.json({});
+      res.redirect(301, noimage_url);
     }
   });
 });
@@ -72,9 +75,9 @@ app.get('/album_image/:artist/:album/:type', function(req, res) {
   client.album_getImages(req.params.album, req.params.artist,
     req.params.type, function(image) {
     if (image) {
-      res.redirect(image);
+      res.redirect(301, image);
     } else {
-      res.json({});
+      res.redirect(301, noimage_url);
     }
   });
 });
