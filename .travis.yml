@@ -1,9 +1,9 @@
 language: node_js
 node_js:
   - 0.8
-env:
-  - REDISTOGO_URL=''
-  - LASTFM_API_KEY=b25b959554ed76058ac220b7b2e0a026
+before_script:
+  - export REDISTOGO_URL=
+  - export LASTFM_API_KEY=b25b959554ed76058ac220b7b2e0a026
 notifications:
   recipients:
     - lod@pisem.net
