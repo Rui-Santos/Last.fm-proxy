@@ -2,6 +2,8 @@
 
 Simple Last.fm REST proxy with redis caching and JSONP support.
 
+[![Build Status](https://secure.travis-ci.org/ap4y/Last.fm-proxy.png?branch=master)](http://travis-ci.org/ap4y/Last.fm-proxy)
+
 ## Install ##
 
   * setup your `api key` and `redis` config in `config.js`
