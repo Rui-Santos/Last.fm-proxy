@@ -22,7 +22,13 @@
     "dependencies": {
         "restler": ">=2.0.0",
         "express": "3.0.0rc1",
-        "redis": ">=0.7.0",
-        "sinon": ">=1.4.0"
+        "redis": ">=0.7.0"
+    },
+    "devDependencies": {
+        "sinon": ">=1.4.0",
+        "nodeunit": ">=0.7.0"
+    },
+    "scripts": {
+        "test": "node_modules/.bin/nodeunit tests.js"
     }
 }
