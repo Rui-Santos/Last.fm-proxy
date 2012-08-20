@@ -3,7 +3,8 @@ node_js:
   - 0.8
 before_script:
   - export REDISTOGO_URL=
-  - export LASTFM_API_KEY=b25b959554ed76058ac220b7b2e0a026
+env:
+  - {secure: NumSzf7i0sG7Bq3urHVLvchB+K4kMS/trKXUwcdrl00jS1zDSpvHsGmYO5I4NZlsC+k5bNLxbDo1Vh1YGy0ieWjXiF3TnCM1uhTLYgPBdwdepo9dDURMpMd6WMbTg1H8oOgHvkpVliFNZvzZsnW3GUfdUERVbRsu2gdDp/CoTqo=}
 notifications:
   recipients:
     - lod@pisem.net
